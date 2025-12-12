@@ -1,0 +1,19 @@
+/* Reset básico para todos los elementos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Reset específico para enlaces */
+a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* Reset específico para listas */
+ul {
+    list-style: none;
+}
