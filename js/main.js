@@ -1,3 +1,5 @@
+//LÓGICA DEL BOTÓN DEL MENÚ DESPLEGABLE
+
 // 1. Encuentra el botón por su id
 const btnMenu = document.getElementById('btn-menu');
 
@@ -15,3 +17,5 @@ btnMenu.onclick = () => {
         btnMenu.src = 'img/svg/menuX.svg';
     }
 };
+
+// LÓGICA DE LAS CARDS DE PERROS
