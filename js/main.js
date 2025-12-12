@@ -29,74 +29,79 @@ class DogCard {
     }
 }
 
-// Array de perros
-const dogs = [
-    new DogCard('Max', '2 años', 'Macho', 'Mediano', 'https://placedog.net/400/300?id=1'),
-    new DogCard('Luna', '1 año', 'Hembra', 'Pequeño', 'https://placedog.net/400/300?id=2'),
-    new DogCard('Rocky', '3 años', 'Macho', 'Grande', 'https://placedog.net/400/300?id=3'),
-    new DogCard('Bella', '4 años', 'Hembra', 'Mediano', 'https://placedog.net/400/300?id=4'),
-    new DogCard('Toby', '5 años', 'Macho', 'Grande', 'https://placedog.net/400/300?id=5'),
-    new DogCard('Coco', '2 años', 'Hembra', 'Pequeño', 'https://placedog.net/400/300?id=6'),
-    new DogCard('Bruno', '1 año', 'Macho', 'Mediano', 'https://placedog.net/400/300?id=7'),
-    new DogCard('Nala', '3 años', 'Hembra', 'Grande', 'https://placedog.net/400/300?id=8'),
+// Clase para gestionar el refugio de perros
+class Refugio {
+    constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        this.dogs = [];
+        this.filters = {
+            size: document.getElementById('size'),
+            age: document.getElementById('age'),
+            gender: document.getElementById('gender')
+        };
+        this.clearBtn = document.getElementById('clear-filters');
+        this.initEvents();
+    }
+
+    addDog(name, age, gender, size, imageUrl) {
+        this.dogs.push(new DogCard(name, age, gender, size, imageUrl));
+    }
+
+    showCards(dogs = this.dogs) {
+        this.container.innerHTML = '';
+        dogs.forEach(dog => this.container.appendChild(dog.createCard()));
+    }
+
+    filterDogs() {
+        const size = this.filters.size.value.toLowerCase();
+        const age = this.filters.age.value.toLowerCase();
+        const gender = this.filters.gender.value.toLowerCase();
+
+        const filtered = this.dogs.filter(dog => {
+            if (size && dog.size.toLowerCase() !== size) return false;
+            if (gender && dog.gender.toLowerCase() !== gender) return false;
+            if (age) {
+                const years = parseInt(dog.age);
+                if (age === 'cachorro' && years >= 1) return false;
+                if (age === 'joven' && (years < 1 || years > 3)) return false;
+                if (age === 'adulto' && (years < 3 || years > 8)) return false;
+                if (age === 'senior' && years <= 8) return false;
+            }
+            return true;
+        });
+
+        this.showCards(filtered);
+    }
+
+    clearFilters() {
+        Object.values(this.filters).forEach(f => f.value = '');
+        this.showCards();
+    }
+
+    initEvents() {
+        Object.values(this.filters).forEach(f => 
+            f.addEventListener('change', () => this.filterDogs())
+        );
+        this.clearBtn.addEventListener('click', () => this.clearFilters());
+    }
+}
+
+// Crear refugio y añadir perros
+const refugio = new Refugio('dog-cards');
+
+const perros = [
+    ['Max', '2 años', 'Macho', 'Mediano', 'https://placedog.net/400/300?id=1'],
+    ['Luna', '1 año', 'Hembra', 'Pequeño', 'https://placedog.net/400/300?id=2'],
+    ['Rocky', '3 años', 'Macho', 'Grande', 'https://placedog.net/400/300?id=3'],
+    ['Bella', '4 años', 'Hembra', 'Mediano', 'https://placedog.net/400/300?id=4'],
+    ['Toby', '5 años', 'Macho', 'Grande', 'https://placedog.net/400/300?id=5'],
+    ['Coco', '2 años', 'Hembra', 'Pequeño', 'https://placedog.net/400/300?id=6'],
+    ['Bruno', '1 año', 'Macho', 'Mediano', 'https://placedog.net/400/300?id=7'],
+    ['Nala', '3 años', 'Hembra', 'Grande', 'https://placedog.net/400/300?id=8'],
 ];
 
-// Elementos del DOM
-const container = document.getElementById('dog-cards');
-const sizeFilter = document.getElementById('size');
-const ageFilter = document.getElementById('age');
-const genderFilter = document.getElementById('gender');
-const clearBtn = document.getElementById('clear-filters');
-
-// Función para mostrar las cards filtradas
-function showCards(filteredDogs) {
-    container.innerHTML = '';
-    filteredDogs.forEach(dog => container.appendChild(dog.createCard()));
-}
-
-// Función para filtrar los perros
-function filterDogs() {
-    const size = sizeFilter.value.toLowerCase();
-    const age = ageFilter.value.toLowerCase();
-    const gender = genderFilter.value.toLowerCase();
-
-    const filtered = dogs.filter(dog => {
-        // Filtro por tamaño
-        if (size && dog.size.toLowerCase() !== size) return false;
-        
-        // Filtro por sexo
-        if (gender && dog.gender.toLowerCase() !== gender) return false;
-        
-        // Filtro por edad
-        if (age) {
-            const years = parseInt(dog.age);
-            if (age === 'cachorro' && years >= 1) return false;
-            if (age === 'joven' && (years < 1 || years > 3)) return false;
-            if (age === 'adulto' && (years < 3 || years > 8)) return false;
-            if (age === 'senior' && years <= 8) return false;
-        }
-        
-        return true;
-    });
-
-    showCards(filtered);
-}
-
-// Eventos de los filtros
-sizeFilter.addEventListener('change', filterDogs);
-ageFilter.addEventListener('change', filterDogs);
-genderFilter.addEventListener('change', filterDogs);
-
-// Limpiar filtros
-clearBtn.addEventListener('click', () => {
-    sizeFilter.value = '';
-    ageFilter.value = '';
-    genderFilter.value = '';
-    showCards(dogs);
-});
-
-// Mostrar todas las cards al inicio
-showCards(dogs);
+perros.forEach(p => refugio.addDog(...p));
+refugio.showCards();
 
 
 
