@@ -6,7 +6,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Nombre de Tu Empresa | Descripción Principal del Negocio</title>
+        <title>Adopcion de perros</title>
         <meta name="description" content="Descripción detallada de tu empresa o servicio en 150-160 caracteres. Incluye palabras clave relevantes y call to action." />
         <meta name="keywords" content="palabra clave 1, palabra clave 2, palabra clave 3" />
         <meta name="author" content="Toni Ferrà" />
@@ -280,6 +280,9 @@
                         <li>Español</li>
                         <li>Inglés</li>
                     </ul> -->
+
+                    
+
                 </section>
 
                 <!-- Menu de hamburguesa, clic con JS -->
@@ -309,7 +312,115 @@
             </nav>
 
             <!-- Contenido principal -->
-            <main class="main"></main>
+            <main class="main">
+
+    <!-- BUSCADOR -->
+
+     
+    <form id="filtro-perros"> 
+        
+        <label for="tamaño">Tamaño</label><br>
+        <select name="tamaño" id="tamaño" onchange="filtrarPerros()">
+            <option value="">Todos los tamaños</option>
+            <option value="pequeño">Pequeño (&lt;10Kg)</option>
+            <option value="mediano">Mediano (10-25Kg)</option>
+            <option value="grande">Grande (&gt;25Kg)</option>
+        </select>
+            <br><br>
+
+        <label for="edad">Edad</label><br>
+        <select name="edad" id="edad" onchange="filtrarPerros()">
+            <option value="">Todas las edades</option>
+            <option value="cachorro">Cachorro (&lt;1 año)</option>
+            <option value="joven">Joven (1-3 años)</option>
+            <option value="adulto">Adulto (3-8 años)</option>
+            <option value="senior">Senior (&gt;8 años)</option>
+        </select>
+        <br><br>
+
+        <label for="sexo">Sexo</label><br>
+        <select name="sexo" id="sexo" onchange="filtrarPerros()">
+            <option value="">Cualquira</option>
+            <option value="macho">Macho</option>
+            <option value="hembra">Hembra</option>
+        </select>
+        <br><br>
+        
+        <button type="button" onclick="resetearFiltros()">Limpiar Filtros</button>
+
+    </form>
+
+        
+     <!-- SECCION DONDE ESTAN TODOS LOS PERROS Y SUS DATOS PRINCIPALES -->
+    <section class="grupoPerros" id="grupoPerros">
+
+    <section class="perroDatos" data-size="mediano" data-age="joven" data-sex="macho">
+        <img src="img/husky.avif" alt="logo perros" width="250px">
+        <p>Nombre: Rocky</p>
+        <p>Edad: 2 años</p>
+        <p>Sexo: Macho</p>
+        <p>Tamaño: Mediano</p>
+    </section>
+
+    <section class="perroDatos" data-size="grande" data-age="senior" data-sex="macho">
+        <img src="img/husky.avif" alt="logo perros" width="250px">
+        <p>Nombre: Toby</p>
+        <p>Edad: 7 años</p>
+        <p>Sexo: Macho</p>
+        <p>Tamaño: Grande</p>
+    </section>
+
+    <section class="perroDatos" data-size="mediano" data-age="adulto" data-sex="hembra">
+        <img src="img/husky.avif" alt="logo perros" width="250px">
+        <p>Nombre: Mina</p>
+        <p>Edad: 4 años</p>
+        <p>Sexo: Hembra</p>
+        <p>Tamaño: Mediano</p>
+    </section>
+
+    <section class="perroDatos" data-size="mediano" data-age="adulto" data-sex="macho">
+        <img src="img/husky.avif" alt="logo perros" width="250px">
+        <p>Nombre: Firulais</p>
+        <p>Edad: 3 años</p>
+        <p>Sexo: Macho</p>
+        <p>Tamaño: Mediano</p>
+    </section>
+
+    <section class="perroDatos" data-size="mediano" data-age="senior" data-sex="macho">
+        <img src="img/husky.avif" alt="logo perros" width="250px">
+        <p>Nombre: Roberto</p>
+        <p>Edad: 7 año</p>
+        <p>Sexo: Macho</p>
+        <p>Tamaño: Mediano</p>
+    </section>
+
+    <section class="perroDatos" data-size="grande" data-age="adulto" data-sex="hembra">
+        <img src="img/husky.avif" alt="logo perros" width="250px">
+        <p>Nombre: Patricia</p>
+        <p>Edad: 3 años</p>
+        <p>Sexo: Hembra</p>
+        <p>Tamaño: Grande</p>
+    </section>
+
+    <section class="perroDatos" data-size="pequeño" data-age="joven" data-sex="macho">
+        <img src="img/husky.avif" alt="logo perros" width="250px">
+        <p>Nombre: Matias</p>
+        <p>Edad: 2 años</p>
+        <p>Sexo: Macho</p>
+        <p>Tamaño: Pequeño</p>
+    </section>
+
+    <section class="perroDatos" data-size="pequeño" data-age="joven" data-sex="hembra">
+        <img src="img/husky.avif" alt="logo perros" width="250px">
+        <p>Nombre: papeitaLosPalotes</p>
+        <p>Edad: 2 años</p>
+        <p>Sexo: Hembra</p>
+        <p>Tamaño: pequeño</p>
+    </section>
+
+</section>
+    </main>
+        
 
             <footer class="footer">
                 <section class="footer__container">
