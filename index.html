@@ -6,7 +6,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Nombre de Tu Empresa | Descripción Principal del Negocio</title>
+        <title>Huellas a casa</title>
         <meta name="description" content="Descripción detallada de tu empresa o servicio en 150-160 caracteres. Incluye palabras clave relevantes y call to action." />
         <meta name="keywords" content="palabra clave 1, palabra clave 2, palabra clave 3" />
         <meta name="author" content="Toni Ferrà" />
@@ -57,7 +57,7 @@
         </script>
 
         <!-- Seguridad -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:;" />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; frame-src 'self' https://www.google.com https://maps.googleapis.com;" />
         <meta name="referrer" content="no-referrer-when-downgrade" />
         
         <!-- Internacionalización -->
@@ -255,27 +255,13 @@
             <header class="header">
                 <!-- Logo -->
                 <a href="index.html" class="header__logo">
-                    <h1 class="header__logo-text">LOGO</h1>
+                    <h1 class="header__logo-text"></h1>
                 </a>
 
                 <!-- para Desktop -->
-                <section class="header__desktop">
-                    <ul class="header__menuhtml">
-                        <li class="header__item">
-                            <a class="header__link" href="#">Servicios</a>
-                        </li>
-                        <li class="header__item">
-                            <a class="header__link" href="#">Galeria</a>
-                        </li>
-                        <li class="header__item">
-                            <a class="header__link" href="#">Contacto</a>
-                        </li>
-                    </ul>
+              
                     <!-- Redes la podéis mover al footer si es necesario -->
-                    <ul class="redes">
-                        <li class="redes__facebook">Facebook</li>
-                        <li class="redes__linkedin">Linkedin</li>
-                    </ul>
+                    
                     <!-- <ul class="idiomas">
                         <li>Español</li>
                         <li>Inglés</li>
@@ -308,89 +294,23 @@
                 </ul>
             </nav>
 
+
+
+            <!--este trozo de html para mostrar los perros-->
             <!-- Contenido principal -->
-            <main class="main"></main>
+  <main class="main"></main>
 
-            <footer class="footer">
-                <section class="footer__container">
-                    <!-- Información de la empresa -->
-                    <section class="footer__section footer__company">
-                        <h2 class="footer__title">Nombre Empresa</h2>
-                        <address class="footer__address">
-                            <h3>Calle Principal, 123</h3>
-                            <h3>Ciudad, CP 12345</h3>
-                            <h3>Tel: <a href="tel:+34900000000" class="footer__link">900 000 000</a></h3>
-                            <h3>Email: <a href="mailto:info@empresa.com" class="footer__link">info@empresa.com</a></h3>
-                        </address>
-                    </section>
+      <div class="perros">
+         <img src="" alt="">
+         <button class="fotos_perros">Ver Perfil</button>
+      </div>
+          
 
-                    <!-- Enlaces de navegación -->
-                    <nav class="footer__section footer__nav">
-                        <h4 class="footer__title">Navegación</h4>
-                        <ul class="footer__nav-list">
-                            <li class="footer__nav-item">
-                                <a href="#" class="footer__nav-link">Servicios</a>
-                            </li>
-                            <li class="footer__nav-item">
-                                <a href="#" class="footer__nav-link">Galería</a>
-                            </li>
-                            <li class="footer__nav-item">
-                                <a href="#" class="footer__nav-link">Contacto</a>
-                            </li>
-                        </ul>
-                    </nav>
 
-                    <!-- Legal y privacidad -->
-                    <section class="footer__section footer__legal">
-                        <h4 class="footer__title">Legal</h4>
-                        <ul class="footer__legal-list">
-                            <li class="footer__legal-item">
-                                <a href="#" class="footer__link">Aviso Legal</a>
-                            </li>
-                            <li class="footer__legal-item">
-                                <a href="#" class="footer__link">Política de Privacidad</a>
-                            </li>
-                            <li class="footer__legal-item">
-                                <a href="#" class="footer__link">Política de Cookies</a>
-                            </li>
-                            <li class="footer__legal-item">
-                                <a href="#" class="footer__link">Términos y Condiciones</a>
-                            </li>
-                        </ul>
-                    </section>
 
-                    <!-- Redes sociales -->
-                    <section class="footer__section footer__social">
-                        <h4 class="footer__title">Síguenos</h4>
-                        <ul class="footer__social-list">
-                            <li class="footer__social-item">
-                                <a href="#" class="footer__social-link" aria-label="Facebook">
-                                    Facebook
-                                </a>
-                            </li>
-                            <li class="footer__social-item">
-                                <a href="#" class="footer__social-link" aria-label="LinkedIn">
-                                    LinkedIn
-                                </a>
-                            </li>
-                        </ul>
-                    </section>
-                </section>
 
-                <!-- Copyright y cookies banner -->
-                <section class="footer__bottom">
-                    <article class="footer__copy">
-                        <p>&copy; 2025 Nombre Empresa. Todos los derechos reservados.</p>
-                    </article>
-                    <article class="footer__cookies-banner" id="cookies-banner">
-                        <p class="footer__cookies-text">
-                            Utilizamos cookies propias.
-                            <a href="#" class="footer__link">Más información</a>
-                        </p>
-                    </article>
-                </section>
-            </footer>
-        </div>
+            
+        
 
         <!-- Un código en JavaScript, que nos ayuda hacer un clic -->
         <script src="js/main.js"></script>
