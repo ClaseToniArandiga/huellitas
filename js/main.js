@@ -1,20 +1,3 @@
-// 1. Encuentra el botón por su id
-const btnMenu = document.getElementById('btn-menu');
-
-// 2. Añade el evento clic directamente
-btnMenu.onclick = () => {
-    // cambiar el style del menú desplegable a display:none/block
-    const menuDesplegable = document.getElementById('nav');
-    if (menuDesplegable.style.display === 'block') {
-        menuDesplegable.style.display = 'none';
-        btnMenu.src = 'img/svg/menu.svg';
-    } else {
-        // cambio de estilo de CSS en HTML
-        menuDesplegable.style.display = 'block';
-        // cambiar el contenido del atributo src de la imagen (menu.svg a menuX.svg)
-        btnMenu.src = 'img/svg/menuX.svg';
-    }
-};
 
 // FUNCIÓN DE FILTRADO DE PERROS
 function filtrarPerros() {
@@ -52,7 +35,7 @@ function filtrarPerros() {
         // 4. Aplicar el estilo: Mostrar u Ocultar
         if (mostrarPerro) {
             perro.style.display = 'block'; 
-            // O si usas CSS Grid/Flexbox: perro.style.display = 'grid'; o perro.style.display = 'flex';
+        
         } else {
             perro.style.display = 'none'; // Oculta el perro
         }
@@ -70,5 +53,5 @@ function resetearFiltros() {
     filtrarPerros();
 }
 
-// Opcional: Ejecutar el filtrado una vez al cargar la página para asegurar que todos los perros se muestren por defecto.
+// Ejecutar el filtrado una vez al cargar la página para asegurar que todos los perros se muestren por defecto.
 window.onload = filtrarPerros;
