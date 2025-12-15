@@ -1,4 +1,4 @@
-//LÓGICA DEL BOTÓN DEL MENÚ DESPLEGABLE
+// LÓGICA DEL BOTÓN DEL MENÚ DESPLEGABLE
 
 // 1. Encuentra el botón por su id
 const btnMenu = document.getElementById("btn-menu");
@@ -18,9 +18,11 @@ btnMenu.onclick = () => {
   }
 };
 
+//***************************************************/
+
 // LÓGICA DE LAS CARDS DE PERROS
 
-// Array con los datos de los perros
+// Array con los datos de los perros como objetos. Es como tener una base de datos simple en memoria.
 const perros = [
   {
     id: 1,
@@ -32,7 +34,7 @@ const perros = [
     tamaño: "Mediano",
     cualidades: ["Activo", "Juguetón", "Sociable"],
     descripcion:
-      "Roko es un mestizo lleno de energía y amor. Fue rescatado de una carretera secundaria. Le encanta correr y jugar a la pelota.",
+      "Roko es un mestizo lleno de energía y amor. Fue rescatado de una carretera secundaria. Le encanta correr y jugar a la pelota. Es ideal para una familia activa que disfrute de excursiones al campo. Se lleva bien con otros perros.",
     tasa: 120,
   },
   {
@@ -40,90 +42,91 @@ const perros = [
     imagen: "../img/perro2.avif",
     edad: 4,
     nombre: "Luna",
-    raza: "Labrador",
+    raza: "Galgo Español",
     sexo: "Hembra",
     tamaño: "Grande",
-    cualidades: ["Cariñosa", "Tranquila", "Obediente"],
+    cualidades: ["Tranquila", "Ideal Pisos", "Tímida"],
     descripcion:
-      "Luna es una labrador muy dulce que busca un hogar donde recibir mucho cariño.",
+      "Luna es una galga retirada de la caza. Es la definición de elegancia y calma. En casa es una 'alfombra', le encanta dormir horas y horas. Es algo tímida al principio con extraños, pero muy cariñosa cuando coge confianza. Ideal para piso.",
     tasa: 150,
   },
   {
     id: 3,
     imagen: "../img/perro3.avif",
-    edad: 1,
-    nombre: "Max",
-    raza: "Beagle",
+    edad: 0.4, // 5 meses ≈ 0.4 años
+    nombre: "Thor",
+    raza: "Mix Pastor Alemán",
     sexo: "Macho",
-    tamaño: "Pequeño",
-    cualidades: ["Curioso", "Alegre", "Activo"],
-    descripcion: "Max es un cachorro beagle muy curioso y lleno de energía.",
-    tasa: 100,
+    tamaño: "Grande",
+    cualidades: ["Cachorro", "Inteligente", "Energía Alta"],
+    descripcion:
+      "¡Un torbellino de alegría! Thor es un cachorro que busca una familia con paciencia para enseñarle. Es muy inteligente y aprende rápido. Necesitará ejercicio y estimulación mental cuando crezca.",
+    tasa: 180,
   },
   {
     id: 4,
     imagen: "../img/perro4.avif",
     edad: 3,
-    nombre: "Maya",
-    raza: "Bulldog",
+    nombre: "Nala",
+    raza: "Podenco Andaluz",
     sexo: "Hembra",
     tamaño: "Mediano",
-    cualidades: ["Leal", "Protector", "Calmado"],
+    cualidades: ["Cariñosa", "Familiar", "Leal"],
     descripcion:
-      "Maya es una bulldog leal y protectora que busca una familia que la cuide.",
-    tasa: 130,
+      "Nala es pura dulzura. Los podencos son perros muy sensibles y leales. Le encanta olfatear en los paseos pero en casa es muy tranquila. Se lleva genial con niños y otros perros.",
+    tasa: 120,
   },
   {
     id: 5,
     imagen: "../img/perro5.avif",
-    edad: 5,
-    nombre: "Rocky",
-    raza: "Pastor Alemán",
+    edad: 1,
+    nombre: "Coco",
+    raza: "Terrier Mix",
     sexo: "Macho",
-    tamaño: "Grande",
-    cualidades: ["Inteligente", "Fuerte", "Valiente"],
+    tamaño: "Pequeño",
+    cualidades: ["Senior", "Tranquilo", "Pequeño"],
     descripcion:
-      "Rocky es un pastor alemán inteligente y valiente, ideal para familias activas.",
-    tasa: 160,
+      "Coco es un abuelito que solo busca un sofá y mimos. A pesar de su edad, está sano y tiene mucho amor para dar. Paseos cortos y siestas largas son su rutina ideal. Perfecto para personas mayores.",
+    tasa: 90,
   },
   {
     id: 6,
-    imagen: "../img/perro6.avif",
-    edad: 2,
-    nombre: "Nala",
-    raza: "Golden Retriever",
+    imagen: "../img/perro5.avif",
+    edad: 1,
+    nombre: "Bimba",
+    raza: "Labrador Retriever",
     sexo: "Hembra",
     tamaño: "Grande",
-    cualidades: ["Amistosa", "Juguetona", "Leal"],
+    cualidades: ["Sociable", "Niños OK", "Gatos OK"],
     descripcion:
-      "Nala es una golden retriever muy amistosa y juguetona, perfecta para familias con niños.",
-    tasa: 140,
+      "Bimba es todo corazón. Una labradora joven, sociable y muy glotona. Se lleva bien con todo el mundo: perros, gatos y niños. Necesita una familia que controle su dieta y le dé mucho cariño.",
+    tasa: 150,
   },
   {
     id: 7,
-    imagen: "../img/perro7.avif",
-    edad: 3,
-    nombre: "Toby",
-    raza: "Dálmata",
+    imagen: "../img/perro6.avif",
+    edad: 0.7, // 8 meses ≈ 0.7 años
+    nombre: "Pintas",
+    raza: "Mestizo",
     sexo: "Macho",
     tamaño: "Mediano",
-    cualidades: ["Energético", "Sociable", "Curioso"],
+    cualidades: ["Juguetón", "Cachorro", "Divertido"],
     descripcion:
-      "Toby es un dálmata lleno de energía y curiosidad, ideal para familias activas.",
-    tasa: 125,
+      "Pintas apareció en una caja junto a sus hermanos. Es el último que queda por adoptar. Es un poco trasto pero muy divertido. Busca alguien que juegue mucho con él.",
+    tasa: 120,
   },
   {
     id: 8,
     imagen: "../img/perro8.avif",
-    edad: 4,
-    nombre: "Bella",
-    raza: "Cocker Spaniel",
+    edad: 5,
+    nombre: "Dana",
+    raza: "American Staffordshire",
     sexo: "Hembra",
-    tamaño: "Pequeño",
-    cualidades: ["Cariñosa", "Tranquila", "Obediente"],
+    tamaño: "Mediano",
+    cualidades: ["Leal", "PPP", "Carñosa"],
     descripcion:
-      "Bella es una cocker spaniel muy cariñosa y obediente, perfecta para hogares tranquilos.",
-    tasa: 115,
+      "Dana es una perra incomprendida. Es puro amor con las personas, le encantan los besos. Necesita licencia PPP para su adopción, pero te recompensará con una lealtad inquebrantable. Preferiblemente hija única.",
+    tasa: 100,
   },
 ];
 
@@ -157,26 +160,22 @@ class Card {
   cardFiltro() {
     const card = document.createElement("div");
     card.classList.add("card");
-
     card.innerHTML = `
-            <img src="${this.imagen}" alt="${
-      this.nombre
-    }" style="width: 20%; height: 200px; object-fit: cover;">
-            <div class="info-lista">
-                <span class="edad">${this.edad} años</span>
-                <h3>${this.nombre}</h3>
-                <p class="raza">${this.raza}</p>
-                <p class="caracteristicas">${this.sexo} • ${this.tamaño}</p>
-                <div class="cualidades-lista">
-                    ${this.cualidades
-                      .slice(0, 2) // Solo los 2 primeros elementos del array, luego en cardVerPerfil se muestran los 3
-                      .map((c) => `<span class="tag-pequeño">${c}</span>`)
-                      .join("")}
-                </div>
-                <button class="btn-perfil">Ver Perfil</button>
-            </div>
-        `;
-
+      <img class="card-img" src="${this.imagen}" alt="${this.nombre}">
+      <div class="info-lista">
+        <span class="edad">${this.edad} años</span>
+        <h3>${this.nombre}</h3>
+        <p class="raza">${this.raza}</p>
+        <p class="caracteristicas">${this.sexo} • ${this.tamaño}</p>
+        <div class="cualidades-lista">
+          ${this.cualidades
+            .slice(0, 2)
+            .map((c) => `<span class="tag-pequeño">${c}</span>`)
+            .join("")}
+        </div>
+        <button class="btn-perfil">Ver Perfil</button>
+      </div>
+    `;
     return card;
   }
 
@@ -184,7 +183,6 @@ class Card {
   cardVerPerfil() {
     const modal = document.createElement("div");
     modal.classList.add("modal");
-
     modal.innerHTML = `
       <div class="modal-content">
         <button class="modal-close">&times;</button>
@@ -217,7 +215,7 @@ class Card {
             </div>
             <div class="modal-adoptar">
               <button class="btn-adoptar">
-                🐾 Solicitar Adopción
+                Solicitar Adopción
               </button>
               <div class="modal-info-tasa">
                 Tasa de adopción incluye vacunas, chip y esterilización.
@@ -235,89 +233,66 @@ class Card {
     modal.onclick = (e) => {
       if (e.target === modal) modal.remove();
     };
-
     return modal;
   }
 }
 
-//Ejemplo de card, con un bucle para crear todas las cards
-
 const contenedorCards = document.querySelector("#perros");
 
-// Crear una card para cada perro usando forEach
-perros.forEach((perro) => {
-  const card = new Card(
-    perro.id,
-    perro.imagen,
-    perro.edad,
-    perro.nombre,
-    perro.raza,
-    perro.sexo,
-    perro.tamaño,
-    perro.cualidades,
-    perro.descripcion,
-    perro.tasa
-  );
-
-  // Renderizar la card en la página
-  const cardElement = card.cardFiltro();
-  contenedorCards.appendChild(cardElement);
-
-  // Añadir evento al botón "Ver Perfil" de esta card
-  cardElement.querySelector(".btn-perfil").addEventListener("click", () => {
-    const modal = card.cardVerPerfil();
-    document.body.appendChild(modal);
-  });
-});
-
-// LÓGICA DE FILTROS DE BÚSQUEDA
-
-// Obtener los elementos de los filtros
+// --- FILTROS ---
 const filtroTamaño = document.getElementById("filtro-tamaño");
 const filtroEdad = document.getElementById("filtro-edad");
 const filtroSexo = document.getElementById("filtro-sexo");
 const btnLimpiarFiltros = document.getElementById("btn-limpiar-filtros");
 
-// Función para filtrar perros
+// Función para filtrar perros según los selects
 function filtrarPerros() {
   const tamañoSeleccionado = filtroTamaño.value;
   const edadSeleccionada = filtroEdad.value;
   const sexoSeleccionado = filtroSexo.value;
 
-  // Filtrar el array de perros
-  const perrosFiltrados = perros.filter((perro) => {
-    // Filtro por tamaño
-    const cumpleTamaño =
-      tamañoSeleccionado === "todos" || perro.tamaño === tamañoSeleccionado;
+  // Si todos los filtros están en su valor por defecto, mostrar todos los perros
+  const sinFiltros =
+    (tamañoSeleccionado === "todos" || !tamañoSeleccionado) &&
+    (edadSeleccionada === "todas" || !edadSeleccionada) &&
+    (sexoSeleccionado === "cualquiera" || !sexoSeleccionado);
 
-    // Filtro por edad
-    let cumpleEdad = true;
-    if (edadSeleccionada === "cachorro") {
-      cumpleEdad = perro.edad <= 1;
-    } else if (edadSeleccionada === "joven") {
-      cumpleEdad = perro.edad >= 2 && perro.edad <= 4;
-    } else if (edadSeleccionada === "adulto") {
-      cumpleEdad = perro.edad >= 5;
-    }
+  let perrosFiltrados = perros;
 
-    // Filtro por sexo
-    const cumpleSexo =
-      sexoSeleccionado === "cualquiera" || perro.sexo === sexoSeleccionado;
+  if (!sinFiltros) {
+    perrosFiltrados = perros.filter((perro) => {
+      // Tamaño
+      const cumpleTamaño =
+        tamañoSeleccionado === "todos" || perro.tamaño === tamañoSeleccionado;
 
-    return cumpleTamaño && cumpleEdad && cumpleSexo;
-  });
+      // Edad
+      let cumpleEdad = true;
+      if (edadSeleccionada === "cachorro") {
+        cumpleEdad = perro.edad < 1;
+      } else if (edadSeleccionada === "joven") {
+        cumpleEdad = perro.edad >= 1 && perro.edad <= 3;
+      } else if (edadSeleccionada === "adulto") {
+        cumpleEdad = perro.edad >= 4 && perro.edad <= 8;
+      } else if (edadSeleccionada === "senior") {
+        cumpleEdad = perro.edad > 8;
+      }
 
-  // Renderizar las cards filtradas
+      // Sexo
+      const cumpleSexo =
+        sexoSeleccionado === "cualquiera" || perro.sexo === sexoSeleccionado;
+
+      return cumpleTamaño && cumpleEdad && cumpleSexo;
+    });
+  }
+
   renderizarCards(perrosFiltrados);
 }
 
-// Función para renderizar cards
+// Renderiza una lista de perros (cards)
 function renderizarCards(listaPerros) {
-  // Limpiar contenedor
   contenedorCards.innerHTML = "";
 
-  // Si no hay resultados, mostrar mensaje
-  if (listaPerros.length === 0) {
+  if (!listaPerros.length) {
     contenedorCards.innerHTML = `
       <div class="no-resultados">
         <p>No se encontraron perros con los filtros seleccionados.</p>
@@ -326,7 +301,6 @@ function renderizarCards(listaPerros) {
     return;
   }
 
-  // Crear cards para cada perro filtrado
   listaPerros.forEach((perro) => {
     const card = new Card(
       perro.id,
@@ -340,19 +314,19 @@ function renderizarCards(listaPerros) {
       perro.descripcion,
       perro.tasa
     );
-
     const cardElement = card.cardFiltro();
     contenedorCards.appendChild(cardElement);
-
-    // Añadir evento al botón "Ver Perfil"
     cardElement.querySelector(".btn-perfil").addEventListener("click", () => {
-      const modal = card.cardVerPerfil();
-      document.body.appendChild(modal);
+      // Evitar múltiples modales abiertos
+      if (!document.querySelector(".modal")) {
+        const modal = card.cardVerPerfil();
+        document.body.appendChild(modal);
+      }
     });
   });
 }
 
-// Función para limpiar filtros
+// Limpia los filtros y muestra todas las cards
 function limpiarFiltros() {
   filtroTamaño.value = "todos";
   filtroEdad.value = "todas";
@@ -360,8 +334,11 @@ function limpiarFiltros() {
   renderizarCards(perros);
 }
 
-// Event listeners para los filtros
+// Event listeners
 filtroTamaño.addEventListener("change", filtrarPerros);
 filtroEdad.addEventListener("change", filtrarPerros);
 filtroSexo.addEventListener("change", filtrarPerros);
 btnLimpiarFiltros.addEventListener("click", limpiarFiltros);
+
+// Mostrar todas las cards al cargar la página
+renderizarCards(perros);
