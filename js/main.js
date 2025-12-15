@@ -129,7 +129,17 @@ const perros = [
 
 //crear Class para Cards de perros del main de la index.html
 class Card {
-  constructor(id, imagen, edad, nombre, raza, sexo, tamaño, cualidades, descripcion, tasa
+  constructor(
+    id,
+    imagen,
+    edad,
+    nombre,
+    raza,
+    sexo,
+    tamaño,
+    cualidades,
+    descripcion,
+    tasa
   ) {
     this.id = id;
     this.imagen = imagen;
@@ -171,6 +181,63 @@ class Card {
   }
 
   //Método para ver el perfil completo del perro
+  cardVerPerfil() {
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    modal.innerHTML = `
+      <div class="modal-content">
+        <button class="modal-close">&times;</button>
+        <div class="modal-body">
+          <div class="modal-img">
+            <img src="${this.imagen}" alt="${this.nombre}">
+          </div>
+          <div class="modal-info">
+            <div class="modal-header">
+              <div>
+                <h2>${this.nombre}</h2>
+                <span class="modal-raza">${this.raza}</span>
+              </div>
+              <div>
+                <span class="modal-tasa">Tasa: ${this.tasa}€</span>
+              </div>
+            </div>
+            <div class="modal-caracteristicas">
+              <span>${this.edad} años</span>
+              <span>${this.sexo}</span>
+              <span>${this.tamaño}</span>
+            </div>
+            <h4>Mi Historia</h4>
+            <p>${this.descripcion}</p>
+            <h4>Mis Cualidades</h4>
+            <div class="modal-cualidades">
+              ${this.cualidades
+                .map((c) => `<span class="tag">${c}</span>`)
+                .join("")}
+            </div>
+            <div class="modal-adoptar">
+              <button class="btn-adoptar">
+                🐾 Solicitar Adopción
+              </button>
+              <div class="modal-info-tasa">
+                Tasa de adopción incluye vacunas, chip y esterilización.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Cerrar modal al hacer click en el botón de cerrar
+    modal.querySelector(".modal-close").onclick = () => modal.remove();
+
+    // Cerrar modal al hacer click fuera del contenido
+    modal.onclick = (e) => {
+      if (e.target === modal) modal.remove();
+    };
+
+    return modal;
+  }
 }
 
 //Ejemplo de card, con un bucle para crear todas las cards
@@ -193,5 +260,108 @@ perros.forEach((perro) => {
   );
 
   // Renderizar la card en la página
-  contenedorCards.appendChild(card.cardFiltro());
+  const cardElement = card.cardFiltro();
+  contenedorCards.appendChild(cardElement);
+
+  // Añadir evento al botón "Ver Perfil" de esta card
+  cardElement.querySelector(".btn-perfil").addEventListener("click", () => {
+    const modal = card.cardVerPerfil();
+    document.body.appendChild(modal);
+  });
 });
+
+// LÓGICA DE FILTROS DE BÚSQUEDA
+
+// Obtener los elementos de los filtros
+const filtroTamaño = document.getElementById("filtro-tamaño");
+const filtroEdad = document.getElementById("filtro-edad");
+const filtroSexo = document.getElementById("filtro-sexo");
+const btnLimpiarFiltros = document.getElementById("btn-limpiar-filtros");
+
+// Función para filtrar perros
+function filtrarPerros() {
+  const tamañoSeleccionado = filtroTamaño.value;
+  const edadSeleccionada = filtroEdad.value;
+  const sexoSeleccionado = filtroSexo.value;
+
+  // Filtrar el array de perros
+  const perrosFiltrados = perros.filter((perro) => {
+    // Filtro por tamaño
+    const cumpleTamaño =
+      tamañoSeleccionado === "todos" || perro.tamaño === tamañoSeleccionado;
+
+    // Filtro por edad
+    let cumpleEdad = true;
+    if (edadSeleccionada === "cachorro") {
+      cumpleEdad = perro.edad <= 1;
+    } else if (edadSeleccionada === "joven") {
+      cumpleEdad = perro.edad >= 2 && perro.edad <= 4;
+    } else if (edadSeleccionada === "adulto") {
+      cumpleEdad = perro.edad >= 5;
+    }
+
+    // Filtro por sexo
+    const cumpleSexo =
+      sexoSeleccionado === "cualquiera" || perro.sexo === sexoSeleccionado;
+
+    return cumpleTamaño && cumpleEdad && cumpleSexo;
+  });
+
+  // Renderizar las cards filtradas
+  renderizarCards(perrosFiltrados);
+}
+
+// Función para renderizar cards
+function renderizarCards(listaPerros) {
+  // Limpiar contenedor
+  contenedorCards.innerHTML = "";
+
+  // Si no hay resultados, mostrar mensaje
+  if (listaPerros.length === 0) {
+    contenedorCards.innerHTML = `
+      <div class="no-resultados">
+        <p>No se encontraron perros con los filtros seleccionados.</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Crear cards para cada perro filtrado
+  listaPerros.forEach((perro) => {
+    const card = new Card(
+      perro.id,
+      perro.imagen,
+      perro.edad,
+      perro.nombre,
+      perro.raza,
+      perro.sexo,
+      perro.tamaño,
+      perro.cualidades,
+      perro.descripcion,
+      perro.tasa
+    );
+
+    const cardElement = card.cardFiltro();
+    contenedorCards.appendChild(cardElement);
+
+    // Añadir evento al botón "Ver Perfil"
+    cardElement.querySelector(".btn-perfil").addEventListener("click", () => {
+      const modal = card.cardVerPerfil();
+      document.body.appendChild(modal);
+    });
+  });
+}
+
+// Función para limpiar filtros
+function limpiarFiltros() {
+  filtroTamaño.value = "todos";
+  filtroEdad.value = "todas";
+  filtroSexo.value = "cualquiera";
+  renderizarCards(perros);
+}
+
+// Event listeners para los filtros
+filtroTamaño.addEventListener("change", filtrarPerros);
+filtroEdad.addEventListener("change", filtrarPerros);
+filtroSexo.addEventListener("change", filtrarPerros);
+btnLimpiarFiltros.addEventListener("click", limpiarFiltros);
