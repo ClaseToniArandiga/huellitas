@@ -162,22 +162,19 @@ class Card {
     card.classList.add("card");
     card.innerHTML = `
       <img class="card-img" src="${this.imagen}" alt="${this.nombre}">
-      <div class="info-lista">
-        <span class="edad">${this.edad} años</span>
-        <h3>${this.nombre}</h3>
-        <p class="raza">${this.raza}</p>
-        <p class="caracteristicas">${this.sexo} • ${this.tamaño}</p>
-        <div class="cualidades-lista">
-          ${
-            // Aquí recorremos el array de cualidades y creamos un <span> para cada una (solo las dos primeras)
-            this.cualidades
+      <span class="edad">${this.edad} años</span>
+      <h3>${this.nombre}</h3>
+      <p class="raza">${this.raza}</p>
+      <p class="caracteristicas">${this.sexo} • ${this.tamaño}</p>
+      ${
+        this.cualidades.length
+          ? this.cualidades
               .slice(0, 2)
               .map((cualidad) => `<span class="tag-pequeño">${cualidad}</span>`)
               .join("")
-          }
-        </div>
-        <button class="btn-perfil">Ver Perfil</button>
-      </div>
+          : ""
+      }
+      <button class="btn-perfil">Ver Perfil</button>
     `;
     return card;
   }
@@ -189,45 +186,30 @@ class Card {
     modal.innerHTML = `
       <div class="modal-content">
         <button class="modal-close">&times;</button>
-        <div class="modal-body">
-          <div class="modal-img">
-            <img src="${this.imagen}" alt="${this.nombre}">
-          </div>
-          <div class="modal-info">
-            <div class="modal-header">
-              <div>
-                <h2>${this.nombre}</h2>
-                <span class="modal-raza">${this.raza}</span>
-              </div>
-              <div>
-                <span class="modal-tasa">Tasa: ${this.tasa}€</span>
-              </div>
-            </div>
-            <div class="modal-caracteristicas">
-              <span>${this.edad} años</span>
-              <span>${this.sexo}</span>
-              <span>${this.tamaño}</span>
-            </div>
-            <h4>Mi Historia</h4>
-            <p>${this.descripcion}</p>
-            <h4>Mis Cualidades</h4>
-            <div class="modal-cualidades">
-              ${
-                // Aquí recorremos todas las cualidades y creamos un <span> para cada una
-                this.cualidades
-                  .map((cualidad) => `<span class="tag">${cualidad}</span>`)
-                  .join("")
-              }
-            </div>
-            <div class="modal-adoptar">
-              <button class="btn-adoptar">
-                Solicitar Adopción
-              </button>
-              <div class="modal-info-tasa">
-                Tasa de adopción incluye vacunas, chip y esterilización.
-              </div>
-            </div>
-          </div>
+        <img class="modal-img" src="${this.imagen}" alt="${this.nombre}">
+        <div class="modal-header">
+          <h2>${this.nombre}</h2>
+          <span class="modal-raza">${this.raza}</span>
+          <span class="modal-tasa">Tasa: ${this.tasa}€</span>
+        </div>
+        <div class="modal-caracteristicas">
+          <span>${this.edad} años</span>
+          <span>${this.sexo}</span>
+          <span>${this.tamaño}</span>
+        </div>
+        <h4>Mi Historia</h4>
+        <p>${this.descripcion}</p>
+        <h4>Mis Cualidades</h4>
+        ${
+          this.cualidades.length
+            ? this.cualidades
+                .map((cualidad) => `<span class="tag">${cualidad}</span>`)
+                .join("")
+            : ""
+        }
+        <button class="btn-adoptar">Solicitar Adopción</button>
+        <div class="modal-info-tasa">
+          Tasa de adopción incluye vacunas, chip y esterilización.
         </div>
       </div>
     `;
