@@ -140,7 +140,7 @@ class Card {
     raza,
     sexo,
     tamaño,
-    cualidades,
+    cualidades, // <-- Este parámetro es un array de cualidades, por ejemplo: ['Activo', 'Juguetón', 'Sociable']
     descripcion,
     tasa
   ) {
@@ -151,7 +151,7 @@ class Card {
     this.raza = raza;
     this.sexo = sexo;
     this.tamaño = tamaño;
-    this.cualidades = cualidades; // Array: ['Activo', 'Juguetón', 'Sociable']
+    this.cualidades = cualidades; // <-- Aquí se guarda el array de cualidades en la propiedad de la clase
     this.descripcion = descripcion;
     this.tasa = tasa;
   }
@@ -168,10 +168,13 @@ class Card {
         <p class="raza">${this.raza}</p>
         <p class="caracteristicas">${this.sexo} • ${this.tamaño}</p>
         <div class="cualidades-lista">
-          ${this.cualidades
-            .slice(0, 2)
-            .map((c) => `<span class="tag-pequeño">${c}</span>`)
-            .join("")}
+          ${
+            // Aquí recorremos el array de cualidades y creamos un <span> para cada una (solo las dos primeras)
+            this.cualidades
+              .slice(0, 2)
+              .map((cualidad) => `<span class="tag-pequeño">${cualidad}</span>`)
+              .join("")
+          }
         </div>
         <button class="btn-perfil">Ver Perfil</button>
       </div>
@@ -209,9 +212,12 @@ class Card {
             <p>${this.descripcion}</p>
             <h4>Mis Cualidades</h4>
             <div class="modal-cualidades">
-              ${this.cualidades
-                .map((c) => `<span class="tag">${c}</span>`)
-                .join("")}
+              ${
+                // Aquí recorremos todas las cualidades y creamos un <span> para cada una
+                this.cualidades
+                  .map((cualidad) => `<span class="tag">${cualidad}</span>`)
+                  .join("")
+              }
             </div>
             <div class="modal-adoptar">
               <button class="btn-adoptar">
@@ -260,6 +266,7 @@ function filtrarPerros() {
   let perrosFiltrados = perros;
 
   if (!sinFiltros) {
+    //filter es un método de los arrays de JS. Sirve para recorrer un array y devolver otro array con los elementos que cumplan los filtros seleccionados. Si cumplen la condición, se incluyen en el nuevo array, si no, se descarta.
     perrosFiltrados = perros.filter((perro) => {
       // Tamaño
       const cumpleTamaño =
@@ -317,7 +324,7 @@ function renderizarCards(listaPerros) {
     const cardElement = card.cardFiltro();
     contenedorCards.appendChild(cardElement);
     cardElement.querySelector(".btn-perfil").addEventListener("click", () => {
-      // Evitar múltiples modales abiertos
+      // Evitar múltiples modales abiertos al hacer click en el botón "Ver Perfil"
       if (!document.querySelector(".modal")) {
         const modal = card.cardVerPerfil();
         document.body.appendChild(modal);
@@ -334,7 +341,8 @@ function limpiarFiltros() {
   renderizarCards(perros);
 }
 
-// Event listeners
+// Event listeners - "change" es el nombre de un evento que se utiliza en los elementos de formulario (como <select>, <input>, <textarea>, etc.) que se dispara cuando el valor de un elemento ha cambiado
+
 filtroTamaño.addEventListener("change", filtrarPerros);
 filtroEdad.addEventListener("change", filtrarPerros);
 filtroSexo.addEventListener("change", filtrarPerros);
