@@ -18,11 +18,7 @@ btnMenu.onclick = () => {
   }
 };
 
-//***************************************************/
-
-// LÓGICA DE LAS CARDS DE PERROS
-
-// Array con los datos de los perros como objetos. Es como tener una base de datos simple en memoria.
+// --- DATOS Y ARRANQUE (BD en memoria, sino, la tendríamos en un servidor tipo supaBase) ---
 const perros = [
   {
     id: 1,
@@ -53,7 +49,7 @@ const perros = [
   {
     id: 3,
     imagen: "../img/perro3.avif",
-    edad: 0.4, // 5 meses ≈ 0.4 años
+    edad: 0.4,
     nombre: "Thor",
     raza: "Mix Pastor Alemán",
     sexo: "Macho",
@@ -105,7 +101,7 @@ const perros = [
   {
     id: 7,
     imagen: "../img/perro6.avif",
-    edad: 0.7, // 8 meses ≈ 0.7 años
+    edad: 0.7,
     nombre: "Pintas",
     raza: "Mestizo",
     sexo: "Macho",
@@ -130,20 +126,9 @@ const perros = [
   },
 ];
 
-//crear Class para Cards de perros del main de la index.html
-class Card {
-  constructor(
-    id,
-    imagen,
-    edad,
-    nombre,
-    raza,
-    sexo,
-    tamaño,
-    cualidades, // <-- Este parámetro es un array de cualidades, por ejemplo: ['Activo', 'Juguetón', 'Sociable']
-    descripcion,
-    tasa
-  ) {
+// --- CLASES ---
+class Perro {
+  constructor({ id, imagen, edad, nombre, raza, sexo, tamaño, cualidades, descripcion, tasa }) {
     this.id = id;
     this.imagen = imagen;
     this.edad = edad;
@@ -151,12 +136,11 @@ class Card {
     this.raza = raza;
     this.sexo = sexo;
     this.tamaño = tamaño;
-    this.cualidades = cualidades; // <-- Aquí se guarda el array de cualidades en la propiedad de la clase
+    this.cualidades = cualidades;
     this.descripcion = descripcion;
     this.tasa = tasa;
   }
 
-  //Método para la card con filtros, donde se mete el HTML
   cardFiltro() {
     const card = document.createElement("div");
     card.classList.add("card");
@@ -179,7 +163,6 @@ class Card {
     return card;
   }
 
-  //Método para ver el perfil completo del perro
   cardVerPerfil() {
     const modal = document.createElement("div");
     modal.classList.add("modal");
@@ -213,11 +196,7 @@ class Card {
         </div>
       </div>
     `;
-
-    // Cerrar modal al hacer click en el botón de cerrar
     modal.querySelector(".modal-close").onclick = () => modal.remove();
-
-    // Cerrar modal al hacer click fuera del contenido
     modal.onclick = (e) => {
       if (e.target === modal) modal.remove();
     };
@@ -225,110 +204,98 @@ class Card {
   }
 }
 
-const contenedorCards = document.querySelector("#perros");
+class Filtro {
+  constructor(refugio) {
+    this.refugio = refugio;
+    this.filtroTamaño = document.getElementById("filtro-tamaño");
+    this.filtroEdad = document.getElementById("filtro-edad");
+    this.filtroSexo = document.getElementById("filtro-sexo");
+    this.btnLimpiarFiltros = document.getElementById("btn-limpiar-filtros");
 
-// --- FILTROS ---
-const filtroTamaño = document.getElementById("filtro-tamaño");
-const filtroEdad = document.getElementById("filtro-edad");
-const filtroSexo = document.getElementById("filtro-sexo");
-const btnLimpiarFiltros = document.getElementById("btn-limpiar-filtros");
-
-// Función para filtrar perros según los selects
-function filtrarPerros() {
-  const tamañoSeleccionado = filtroTamaño.value;
-  const edadSeleccionada = filtroEdad.value;
-  const sexoSeleccionado = filtroSexo.value;
-
-  // Si todos los filtros están en su valor por defecto, mostrar todos los perros
-  const sinFiltros =
-    (tamañoSeleccionado === "todos" || !tamañoSeleccionado) &&
-    (edadSeleccionada === "todas" || !edadSeleccionada) &&
-    (sexoSeleccionado === "cualquiera" || !sexoSeleccionado);
-
-  let perrosFiltrados = perros;
-
-  if (!sinFiltros) {
-    //filter es un método de los arrays de JS. Sirve para recorrer un array y devolver otro array con los elementos que cumplan los filtros seleccionados. Si cumplen la condición, se incluyen en el nuevo array, si no, se descarta.
-    perrosFiltrados = perros.filter((perro) => {
-      // Tamaño
-      const cumpleTamaño =
-        tamañoSeleccionado === "todos" || perro.tamaño === tamañoSeleccionado;
-
-      // Edad
-      let cumpleEdad = true;
-      if (edadSeleccionada === "cachorro") {
-        cumpleEdad = perro.edad < 1;
-      } else if (edadSeleccionada === "joven") {
-        cumpleEdad = perro.edad >= 1 && perro.edad <= 3;
-      } else if (edadSeleccionada === "adulto") {
-        cumpleEdad = perro.edad >= 4 && perro.edad <= 8;
-      } else if (edadSeleccionada === "senior") {
-        cumpleEdad = perro.edad > 8;
-      }
-
-      // Sexo
-      const cumpleSexo =
-        sexoSeleccionado === "cualquiera" || perro.sexo === sexoSeleccionado;
-
-      return cumpleTamaño && cumpleEdad && cumpleSexo;
-    });
+    this.filtroTamaño.addEventListener("change", () => this.aplicarFiltros());
+    this.filtroEdad.addEventListener("change", () => this.aplicarFiltros());
+    this.filtroSexo.addEventListener("change", () => this.aplicarFiltros());
+    this.btnLimpiarFiltros.addEventListener("click", () => this.limpiarFiltros());
   }
 
-  renderizarCards(perrosFiltrados);
-}
+  aplicarFiltros() {
+    const tamañoSeleccionado = this.filtroTamaño.value;
+    const edadSeleccionada = this.filtroEdad.value;
+    const sexoSeleccionado = this.filtroSexo.value;
 
-// Renderiza una lista de perros (cards)
-function renderizarCards(listaPerros) {
-  contenedorCards.innerHTML = "";
+    const sinFiltros =
+      (tamañoSeleccionado === "todos" || !tamañoSeleccionado) &&
+      (edadSeleccionada === "todas" || !edadSeleccionada) &&
+      (sexoSeleccionado === "cualquiera" || !sexoSeleccionado);
 
-  if (!listaPerros.length) {
-    contenedorCards.innerHTML = `
-      <div class="no-resultados">
-        <p>No se encontraron perros con los filtros seleccionados.</p>
-      </div>
-    `;
-    return;
+    let perrosFiltrados = this.refugio.perros;
+
+    if (!sinFiltros) {
+      perrosFiltrados = this.refugio.perros.filter((perro) => {
+        const cumpleTamaño =
+          tamañoSeleccionado === "todos" || perro.tamaño === tamañoSeleccionado;
+
+        let cumpleEdad = true;
+        if (edadSeleccionada === "cachorro") {
+          cumpleEdad = perro.edad < 1;
+        } else if (edadSeleccionada === "joven") {
+          cumpleEdad = perro.edad >= 1 && perro.edad <= 3;
+        } else if (edadSeleccionada === "adulto") {
+          cumpleEdad = perro.edad >= 4 && perro.edad <= 8;
+        } else if (edadSeleccionada === "senior") {
+          cumpleEdad = perro.edad > 8;
+        }
+
+        const cumpleSexo =
+          sexoSeleccionado === "cualquiera" || perro.sexo === sexoSeleccionado;
+
+        return cumpleTamaño && cumpleEdad && cumpleSexo;
+      });
+    }
+
+    this.refugio.renderizarCards(perrosFiltrados);
   }
 
-  listaPerros.forEach((perro) => {
-    const card = new Card(
-      perro.id,
-      perro.imagen,
-      perro.edad,
-      perro.nombre,
-      perro.raza,
-      perro.sexo,
-      perro.tamaño,
-      perro.cualidades,
-      perro.descripcion,
-      perro.tasa
-    );
-    const cardElement = card.cardFiltro();
-    contenedorCards.appendChild(cardElement);
-    cardElement.querySelector(".btn-perfil").addEventListener("click", () => {
-      // Evitar múltiples modales abiertos al hacer click en el botón "Ver Perfil"
-      if (!document.querySelector(".modal")) {
-        const modal = card.cardVerPerfil();
-        document.body.appendChild(modal);
-      }
+  limpiarFiltros() {
+    this.filtroTamaño.value = "todos";
+    this.filtroEdad.value = "todas";
+    this.filtroSexo.value = "cualquiera";
+    this.refugio.renderizarCards(this.refugio.perros);
+  }
+}
+
+class Refugio {
+  constructor(perros) {
+    this.perros = perros.map((p) => new Perro(p));
+    this.contenedorCards = document.querySelector("#perros");
+    this.filtro = new Filtro(this);
+    this.renderizarCards(this.perros);
+  }
+
+  renderizarCards(listaPerros) {
+    this.contenedorCards.innerHTML = "";
+
+    if (!listaPerros.length) {
+      this.contenedorCards.innerHTML = `
+        <div class="no-resultados">
+          <p>No se encontraron perros con los filtros seleccionados.</p>
+        </div>
+      `;
+      return;
+    }
+
+    listaPerros.forEach((perro) => {
+      const cardElement = perro.cardFiltro();
+      this.contenedorCards.appendChild(cardElement);
+      cardElement.querySelector(".btn-perfil").addEventListener("click", () => {
+        if (!document.querySelector(".modal")) {
+          const modal = perro.cardVerPerfil();
+          document.body.appendChild(modal);
+        }
+      });
     });
-  });
+  }
 }
 
-// Limpia los filtros y muestra todas las cards
-function limpiarFiltros() {
-  filtroTamaño.value = "todos";
-  filtroEdad.value = "todas";
-  filtroSexo.value = "cualquiera";
-  renderizarCards(perros);
-}
-
-// Event listeners - "change" es el nombre de un evento que se utiliza en los elementos de formulario (como <select>, <input>, <textarea>, etc.) que se dispara cuando el valor de un elemento ha cambiado
-
-filtroTamaño.addEventListener("change", filtrarPerros);
-filtroEdad.addEventListener("change", filtrarPerros);
-filtroSexo.addEventListener("change", filtrarPerros);
-btnLimpiarFiltros.addEventListener("click", limpiarFiltros);
-
-// Mostrar todas las cards al cargar la página
-renderizarCards(perros);
+//crea una nueva instacia de la clase Refugio, pasando el array perros como argumento del constructor
+new Refugio(perros);
