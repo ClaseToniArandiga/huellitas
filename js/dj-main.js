@@ -53,13 +53,13 @@ class Refugio {
     }
 
     filterDogs() {
-        const size = this.filters.size.value.toLowerCase();
-        const age = this.filters.age.value.toLowerCase();
-        const gender = this.filters.gender.value.toLowerCase();
+        const size = this.filters.size.value;
+        const age = this.filters.age.value;
+        const gender = this.filters.gender.value;
 
         const filtered = this.dogs.filter(dog => {
-            if (size && dog.size.toLowerCase() !== size) return false;
-            if (gender && dog.gender.toLowerCase() !== gender) return false;
+            if (size && dog.size !== size) return false;
+            if (gender && dog.gender !== gender) return false;
             if (age) {
                 const years = parseInt(dog.age);
                 if (age === 'cachorro' && years >= 1) return false;
