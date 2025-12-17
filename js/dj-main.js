@@ -15,8 +15,8 @@ class DogCard {
         card.innerHTML = `
             <img src="${this.imageUrl}" alt="Imagen de ${this.name}" loading="lazy">
             <div class="dog-info">
+            <p><strong>Edad:</strong> ${this.age}</p>
                 <h3>${this.name}</h3>
-                <p><strong>Edad:</strong> ${this.age}</p>
                 <p><strong>Sexo:</strong> ${this.gender}</p>
                 <p><strong>Tamaño:</strong> ${this.size}</p>
                 <button class="btn-adoptar">🐾 Adoptar</button>
@@ -100,7 +100,7 @@ const perros = [
     ['Nala', '3 años', 'Hembra', 'Grande', 'https://placedog.net/400/300?id=8'],
 ];
 
-perros.forEach(p => refugio.addDog(...p));
+perros.forEach(perro => refugio.addDog(...perro));
 refugio.showCards();
 
 
