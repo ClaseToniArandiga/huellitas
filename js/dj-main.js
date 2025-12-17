@@ -90,17 +90,19 @@ class Refugio {
 const refugio = new Refugio('dog-cards');
 
 const perros = [
-    ['Max', '2 años', 'Macho', 'Mediano', 'https://placedog.net/400/300?id=1'],
-    ['Luna', '1 año', 'Hembra', 'Pequeño', 'https://placedog.net/400/300?id=2'],
-    ['Rocky', '3 años', 'Macho', 'Grande', 'https://placedog.net/400/300?id=3'],
-    ['Bella', '4 años', 'Hembra', 'Mediano', 'https://placedog.net/400/300?id=4'],
-    ['Toby', '5 años', 'Macho', 'Grande', 'https://placedog.net/400/300?id=5'],
-    ['Coco', '2 años', 'Hembra', 'Pequeño', 'https://placedog.net/400/300?id=6'],
-    ['Bruno', '1 año', 'Macho', 'Mediano', 'https://placedog.net/400/300?id=7'],
-    ['Nala', '3 años', 'Hembra', 'Grande', 'https://placedog.net/400/300?id=8'],
+    { nombre: 'Max', edad: '2 años', sexo: 'Macho', tamaño: 'Mediano', imagenUrl: 'https://placedog.net/400/300?id=1' },
+    { nombre: 'Luna', edad: '1 año', sexo: 'Hembra', tamaño: 'Pequeño', imagenUrl: 'https://placedog.net/400/300?id=2' },
+    { nombre: 'Rocky', edad: '3 años', sexo: 'Macho', tamaño: 'Grande', imagenUrl: 'https://placedog.net/400/300?id=3' },
+    { nombre: 'Bella', edad: '4 años', sexo: 'Hembra', tamaño: 'Mediano', imagenUrl: 'https://placedog.net/400/300?id=4' },
+    { nombre: 'Toby', edad: '5 años', sexo: 'Macho', tamaño: 'Grande', imagenUrl: 'https://placedog.net/400/300?id=5' },
+    { nombre: 'Coco', edad: '2 años', sexo: 'Hembra', tamaño: 'Pequeño', imagenUrl: 'https://placedog.net/400/300?id=6' },
+    { nombre: 'Bruno', edad: '1 año', sexo: 'Macho', tamaño: 'Mediano', imagenUrl: 'https://placedog.net/400/300?id=7' },
+    { nombre: 'Nala', edad: '3 años', sexo: 'Hembra', tamaño: 'Grande', imagenUrl: 'https://placedog.net/400/300?id=8' },
 ];
 
-perros.forEach(perro => refugio.addDog(...perro));
+perros.forEach(perro => {
+    refugio.addDog(perro.nombre, perro.edad, perro.sexo, perro.tamaño, perro.imagenUrl);
+});
 refugio.showCards();
 
 
