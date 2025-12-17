@@ -11,7 +11,6 @@ if (btnMenu && navMenu) {
 
 //a partir de aqui el codigo de los perros
 
-
 const dogsData = {
   roko: {
     id: 'roko',
@@ -137,7 +136,6 @@ const dogsData = {
 
 const dogs = Object.values(dogsData);
 
-
 const cardsContainer = document.querySelector('.perros');
 
 function createFiltersForm() {
@@ -202,12 +200,12 @@ function renderDogs(lista = []) {
     .join('');
 }
 
-
 let dogModal;
 
 function ensureDogModal() {
   if (dogModal) return dogModal;
 
+  // Pop art modal markup and inline fallback styles
   dogModal = document.createElement('section');
   dogModal.className = 'dog-modal';
   dogModal.style.display = 'none';
@@ -356,5 +354,3 @@ if (cardsContainer) {
 }
 
 renderDogs(dogs);
-
-
