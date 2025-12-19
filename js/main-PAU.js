@@ -1,13 +1,11 @@
-const btnMenu = document.getElementById('btn-menu');
-const navMenu = document.getElementById('nav');
-
-if (btnMenu && navMenu) {
-  btnMenu.addEventListener('click', () => {
-    const abierto = navMenu.style.display === 'block';
-    navMenu.style.display = abierto ? 'none' : 'block';
-    btnMenu.src = `img/svg/menu${abierto ? '' : 'X'}.svg`;
-  });
-}
+const qs = sel => document.querySelector(sel);
+const btnMenu = qs('#btn-menu');
+const navMenu = qs('#nav');
+btnMenu && navMenu && btnMenu.addEventListener('click', () => {
+  const abierto = navMenu.style.display === 'block';
+  navMenu.style.display = abierto ? 'none' : 'block';
+  btnMenu.src = `img/svg/menu${abierto ? '' : 'X'}.svg`;
+});
 
 //a partir de aqui el codigo de los perros
 
@@ -136,12 +134,19 @@ const dogsData = {
 
 const dogs = Object.values(dogsData);
 
-const cardsContainer = document.querySelector('.perros');
+const ageText = {
+  cachorro: 'Cachorro',
+  joven: 'Joven',
+  adulto: 'Adulto',
+  senior: 'Senior'
+};
+
+const cardsContainer = qs('.perros');
+const labelAge = dog => ageText[dog.age] || dog.ageLabel || dog.age;
 
 function createFiltersForm() {
   if (!cardsContainer) return null;
-
-  const existing = document.querySelector('#filtros');
+  const existing = qs('#filtros');
   if (existing) return existing;
 
   const form = document.createElement('form');
@@ -187,17 +192,17 @@ const selects = form ? form.querySelectorAll('select') : [];
 
 function renderDogs(lista = []) {
   if (!cardsContainer) return;
-  cardsContainer.innerHTML = lista
-    .map(dog => `
-      <article class="card" data-id="${dog.id}">
-        <img src="${dog.photo}" alt="Foto de ${dog.name}">
-        <h3>${dog.name}</h3>
-        <p>Raza: ${dog.breed} · ${dog.tam} · ${dog.ageLabel || dog.age}</p>
+  cardsContainer.innerHTML = lista.map(dog => {
+    const { id, photo, name, breed, sexo, tam } = dog;
+    return `
+      <article class="card" data-id="${id}">
+        <img src="${photo}" alt="Foto de ${name}">
+        <h3>${name}</h3>
+        <p>Raza: ${breed} · Sexo: ${sexo} · Tamaño: ${tam} · Edad: ${labelAge(dog)}</p>
         <div class="tags">${(dog.etiquetas || []).map(tag => `<span>${tag}</span>`).join('')}</div>
         <button class="ver-perfil">Ver Perfil</button>
-      </article>
-    `)
-    .join('');
+      </article>`;
+  }).join('');
 }
 
 let dogModal;
@@ -208,20 +213,12 @@ function ensureDogModal() {
   // Pop art modal markup and inline fallback styles
   dogModal = document.createElement('section');
   dogModal.className = 'dog-modal';
-  dogModal.style.display = 'none';
-  dogModal.style.position = 'fixed';
-  dogModal.style.top = '0';
-  dogModal.style.left = '0';
-  dogModal.style.width = '100%';
-  dogModal.style.height = '100%';
-  dogModal.style.zIndex = '9999';
-  dogModal.style.padding = '1.5rem';
-  dogModal.style.boxSizing = 'border-box';
-  dogModal.style.alignItems = 'center';
-  dogModal.style.justifyContent = 'center';
-  dogModal.style.background = 'rgba(15, 23, 42, 0.65)';
-  dogModal.style.backdropFilter = 'blur(2px)';
-  dogModal.style.overflowY = 'auto';
+  Object.assign(dogModal.style, {
+    display: 'none', position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+    zIndex: 9999, padding: '1.5rem', boxSizing: 'border-box', alignItems: 'center',
+    justifyContent: 'center', background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(2px)',
+    overflowY: 'auto'
+  });
   dogModal.setAttribute('aria-hidden', 'true');
   dogModal.innerHTML = `
     <div class="dog-modal__backdrop" data-modal-close style="position:absolute; inset:0; background:rgba(15,23,42,0.65);"></div>
@@ -284,11 +281,9 @@ function openDogModal(dog) {
   title.textContent = dog.name;
   breed.textContent = dog.breed;
   fee.textContent = dog.fee ? `Tasa: ${dog.fee}` : '';
-  meta.textContent = `${dog.ageLabel || ''} · ${dog.sexo} · ${dog.tam}`;
+  meta.textContent = `${labelAge(dog)} · ${dog.sexo} · ${dog.tam}`;
   history.textContent = dog.story || '';
-  tags.innerHTML = (dog.qualities || dog.etiquetas || [])
-    .map(quality => `<span>${quality}</span>`)
-    .join('');
+  tags.innerHTML = (dog.qualities || dog.etiquetas || []).map(quality => `<span>${quality}</span>`).join('');
 
   modal.classList.add('dog-modal--visible');
   modal.style.display = 'flex';
