@@ -1,24 +1,4 @@
-// LÓGICA DEL BOTÓN DEL MENÚ DESPLEGABLE
-
-// 1. Encuentra el botón por su id
-const btnMenu = document.getElementById("btn-menu");
-
-// 2. Añade el evento clic directamente
-btnMenu.onclick = () => {
-  // cambiar el style del menú desplegable a display:none/block
-  const menuDesplegable = document.getElementById("nav");
-  if (menuDesplegable.style.display === "block") {
-    menuDesplegable.style.display = "none";
-    btnMenu.src = "img/svg/menu.svg";
-  } else {
-    // cambio de estilo de CSS en HTML
-    menuDesplegable.style.display = "block";
-    // cambiar el contenido del atributo src de la imagen (menu.svg a menuX.svg)
-    btnMenu.src = "img/svg/menuX.svg";
-  }
-};
-
-// --- DATOS Y ARRANQUE (BD en memoria, sino, la tendríamos en un servidor tipo supaBase) ---
+// --- DATOS Y ARRANQUE (BD está en memoria -en un array de objetos-, sino, la tendríamos en un servidor tipo supaBase) ---
 const perros = [
   {
     id: 1,
@@ -144,20 +124,23 @@ class Perro {
   cardFiltro() {
     const card = document.createElement("div");
     card.classList.add("card");
+    const tagsHTML = [];
+    this.cualidades.slice(0, 2).forEach((cualidad) => {
+      tagsHTML.push(`<span class="tag-pequeño">${cualidad}</span>`);
+    });
+
+    const edadTexto =
+      this.edad < 1
+        ? `${Math.round(this.edad * 12)} meses`
+        : `${this.edad} año${this.edad !== 1 ? "s" : ""}`;
+
     card.innerHTML = `
       <img class="card-img" src="${this.imagen}" alt="${this.nombre}">
-      <span class="edad">${this.edad} años</span>
+      <span class="edad">${edadTexto}</span>
       <h3>${this.nombre}</h3>
       <p class="raza">${this.raza}</p>
-      <p class="caracteristicas">${this.sexo} • ${this.tamaño}</p>
-      ${
-        this.cualidades.length
-          ? this.cualidades
-              .slice(0, 2)
-              .map((cualidad) => `<span class="tag-pequeño">${cualidad}</span>`)
-              .join("")
-          : ""
-      }
+      <p class="caracteristicas">${this.sexo} ${this.tamaño}</p>
+      ${tagsHTML.join("")}
       <button class="btn-perfil">Ver Perfil</button>
     `;
     return card;
@@ -166,6 +149,16 @@ class Perro {
   cardVerPerfil() {
     const modal = document.createElement("div");
     modal.classList.add("modal");
+    const tagsHTML = [];
+    this.cualidades.forEach((cualidad) => {
+      tagsHTML.push(`<span class="tag">${cualidad}</span>`);
+    });
+
+    const edadTexto =
+      this.edad < 1
+        ? `${Math.round(this.edad * 12)} meses`
+        : `${this.edad} año${this.edad !== 1 ? "s" : ""}`;
+
     modal.innerHTML = `
       <div class="modal-content">
         <button class="modal-close">&times;</button>
@@ -176,31 +169,57 @@ class Perro {
           <span class="modal-tasa">Tasa: ${this.tasa}€</span>
         </div>
         <div class="modal-caracteristicas">
-          <span>${this.edad} años</span>
+          <span>${edadTexto}</span>
           <span>${this.sexo}</span>
           <span>${this.tamaño}</span>
         </div>
         <h4>Mi Historia</h4>
         <p>${this.descripcion}</p>
         <h4>Mis Cualidades</h4>
-        ${
-          this.cualidades.length
-            ? this.cualidades
-                .map((cualidad) => `<span class="tag">${cualidad}</span>`)
-                .join("")
-            : ""
-        }
+        ${tagsHTML.join("")}
         <button class="btn-adoptar">Solicitar Adopción</button>
         <div class="modal-info-tasa">
           Tasa de adopción incluye vacunas, chip y esterilización.
         </div>
       </div>
     `;
-    modal.querySelector(".modal-close").onclick = () => modal.remove();
-    modal.onclick = (e) => {
-      if (e.target === modal) modal.remove();
-    };
+
+    const closeBtn = modal.querySelector(".modal-close");
+    closeBtn.addEventListener("click", () => modal.remove());
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) modal.remove();
+    });
+
     return modal;
+  }
+}
+
+class Refugio {
+  constructor(perros) {
+    this.perros = [];
+    perros.forEach((p) => {
+      this.perros.push(new Perro(p));
+    });
+    this.contenedorCards = document.getElementById("perros");
+    this.renderizarCards(this.perros);
+  }
+
+  renderizarCards(listaPerros) {
+    this.contenedorCards.innerHTML = "";
+    listaPerros.forEach((perro) => {
+      const cardElement = perro.cardFiltro();
+      this.contenedorCards.appendChild(cardElement);
+
+      const btnPerfil = cardElement.querySelector(".btn-perfil");
+      btnPerfil.addEventListener("click", () => {
+        const modalExistente = document.querySelector(".modal");
+        if (!modalExistente) {
+          const modal = perro.cardVerPerfil();
+          document.body.appendChild(modal);
+        }
+      });
+    });
   }
 }
 
@@ -215,45 +234,36 @@ class Filtro {
     this.filtroTamaño.addEventListener("change", () => this.aplicarFiltros());
     this.filtroEdad.addEventListener("change", () => this.aplicarFiltros());
     this.filtroSexo.addEventListener("change", () => this.aplicarFiltros());
-    this.btnLimpiarFiltros.addEventListener("click", () => this.limpiarFiltros());
+    this.btnLimpiarFiltros.addEventListener("click", () =>
+      this.limpiarFiltros()
+    );
   }
 
   aplicarFiltros() {
-    const tamañoSeleccionado = this.filtroTamaño.value;
-    const edadSeleccionada = this.filtroEdad.value;
-    const sexoSeleccionado = this.filtroSexo.value;
+    const valores = {
+      tamaño: this.filtroTamaño.value,
+      edad: this.filtroEdad.value,
+      sexo: this.filtroSexo.value,
+    };
 
-    const sinFiltros =
-      (tamañoSeleccionado === "todos" || !tamañoSeleccionado) &&
-      (edadSeleccionada === "todas" || !edadSeleccionada) &&
-      (sexoSeleccionado === "cualquiera" || !sexoSeleccionado);
+    const filtrados = this.refugio.perros.filter((perro) => {
+      const matchTamaño =
+        valores.tamaño === "todos" || perro.tamaño === valores.tamaño;
+      const matchSexo =
+        valores.sexo === "cualquiera" || perro.sexo === valores.sexo;
 
-    let perrosFiltrados = this.refugio.perros;
+      let matchEdad = true;
+      if (valores.edad === "cachorro") matchEdad = perro.edad < 1;
+      else if (valores.edad === "joven")
+        matchEdad = perro.edad >= 1 && perro.edad <= 3;
+      else if (valores.edad === "adulto")
+        matchEdad = perro.edad >= 4 && perro.edad <= 8;
+      else if (valores.edad === "senior") matchEdad = perro.edad > 8;
 
-    if (!sinFiltros) {
-      perrosFiltrados = this.refugio.perros.filter((perro) => {
-        const cumpleTamaño =
-          tamañoSeleccionado === "todos" || perro.tamaño === tamañoSeleccionado;
+      return matchTamaño && matchSexo && matchEdad;
+    });
 
-        let cumpleEdad = true;
-        if (edadSeleccionada === "cachorro") {
-          cumpleEdad = perro.edad < 1;
-        } else if (edadSeleccionada === "joven") {
-          cumpleEdad = perro.edad >= 1 && perro.edad <= 3;
-        } else if (edadSeleccionada === "adulto") {
-          cumpleEdad = perro.edad >= 4 && perro.edad <= 8;
-        } else if (edadSeleccionada === "senior") {
-          cumpleEdad = perro.edad > 8;
-        }
-
-        const cumpleSexo =
-          sexoSeleccionado === "cualquiera" || perro.sexo === sexoSeleccionado;
-
-        return cumpleTamaño && cumpleEdad && cumpleSexo;
-      });
-    }
-
-    this.refugio.renderizarCards(perrosFiltrados);
+    this.refugio.renderizarCards(filtrados);
   }
 
   limpiarFiltros() {
@@ -264,38 +274,8 @@ class Filtro {
   }
 }
 
-class Refugio {
-  constructor(perros) {
-    this.perros = perros.map((p) => new Perro(p));
-    this.contenedorCards = document.querySelector("#perros");
-    this.filtro = new Filtro(this);
-    this.renderizarCards(this.perros);
-  }
-
-  renderizarCards(listaPerros) {
-    this.contenedorCards.innerHTML = "";
-
-    if (!listaPerros.length) {
-      this.contenedorCards.innerHTML = `
-        <div class="no-resultados">
-          <p>No se encontraron perros con los filtros seleccionados.</p>
-        </div>
-      `;
-      return;
-    }
-
-    listaPerros.forEach((perro) => {
-      const cardElement = perro.cardFiltro();
-      this.contenedorCards.appendChild(cardElement);
-      cardElement.querySelector(".btn-perfil").addEventListener("click", () => {
-        if (!document.querySelector(".modal")) {
-          const modal = perro.cardVerPerfil();
-          document.body.appendChild(modal);
-        }
-      });
-    });
-  }
-}
-
-//crea una nueva instacia de la clase Refugio, pasando el array perros como argumento del constructor
-new Refugio(perros);
+//EL MOTOR
+//new Refugio crea una nueva instacia de la clase Refugio, pasando el array perros como argumento del constructor
+//new Filtro se encarga de gestionar los filtros, recibe la instancia de Refugio para poder llamar a su método renderizarCards
+const refugio = new Refugio(perros);
+new Filtro(refugio);
