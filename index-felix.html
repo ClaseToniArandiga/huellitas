@@ -1,137 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
 
-        <!-- Rendimiento y precarga -->
-        <link rel="preload" as="style" href="css/style.css" />
-        <link rel="stylesheet" href="css/style.css" />
-    </head>
-    
-    <body>
+<head>
 
-            <!-- Contenido principal -->
-            <main class="main">
+    <!-- Rendimiento y precarga -->
+    <link rel="preload" as="style" href="css/style.css" />
+</head>
 
-    <!-- BUSCADOR -->
+<body>
 
-     
-<form id="filtro-perros" class="buscador"> 
-    
+    <!-- Contenido principal -->
+    <main class="main">
+
+        <!-- BUSCADOR -->
+
         <label class="categoria" for="tamaño">Tamaño</label>
-            <select name="tamaño" id="tamaño" onchange="filtrarPerros()">
-                <option value="">Todos los tamaños</option>
-                <option value="pequeño">Pequeño (&lt;10Kg)</option>
-                <option value="mediano">Mediano (10-25Kg)</option>
-                <option value="grande">Grande (&gt;25Kg)</option>
-            </select>
-           
+        <select name="tamaño" id="tamaño" onchange="filtrarPerros()">
+            <option value="">Todos los tamaños</option>
+            <option value="pequeño">Pequeño (&lt;10Kg)</option>
+            <option value="mediano">Mediano (10-25Kg)</option>
+            <option value="grande">Grande (&gt;25Kg)</option>
+        </select>
 
-        <label class="categoria"for="edad">Edad</label>
-            <select name="edad" id="edad" onchange="filtrarPerros()">
-                <option value="">Todas las edades</option>
-                <option value="cachorro">Cachorro (&lt;1 año)</option>
-                <option value="joven">Joven (1-3 años)</option>
-                <option value="adulto">Adulto (3-8 años)</option>
-                <option value="senior">Senior (&gt;8 años)</option>
-            </select>
-       
+
+        <label class="categoria" for="edad">Edad</label>
+        <select name="edad" id="edad" onchange="filtrarPerros()">
+            <option value="">Todas las edades</option>
+            <option value="cachorro">Cachorro (&lt;1 año)</option>
+            <option value="joven">Joven (1-3 años)</option>
+            <option value="adulto">Adulto (3-8 años)</option>
+            <option value="senior">Senior (&gt;8 años)</option>
+        </select>
+
 
         <label for="sexo">Sexo</label>
-            <select name="sexo" id="sexo" onchange="filtrarPerros()">
-                <option value="">Cualquiera</option>
-                <option value="macho">Macho</option>
-                <option value="hembra">Hembra</option>
-            </select>
-      
-        
+        <select name="sexo" id="sexo" onchange="filtrarPerros()">
+            <option value="">Cualquiera</option>
+            <option value="macho">Macho</option>
+            <option value="hembra">Hembra</option>
+        </select>
+
+
         <button type="button" onclick="resetearFiltros()">Limpiar Filtros</button>
 
-</form>
+      
+
+
+        <!-- SECCION DONDE ESTAN TODOS LOS PERROS Y SUS DATOS PRINCIPALES -->
+        <section class="grupoPerros" id="grupoPerros">
+
+          
+        </section>
 
         
-     <!-- SECCION DONDE ESTAN TODOS LOS PERROS Y SUS DATOS PRINCIPALES -->
-    <section class="grupoPerros" id="grupoPerros">
-
-    <section class="perroDatos" data-size="mediano" data-age="cachorro" data-sex="macho">
-        <img src="img/husky.avif" alt="logo perros" width="250px">
-        <section class="info">
-            <p>Nombre: Rocky</p>
-            <p>Edad: 3 meses</p>
-            <p>Sexo: Macho</p>
-            <p>Tamaño: Mediano</p>
-        </section>
-    </section>
-
-    <section class="perroDatos" data-size="grande" data-age="adulto" data-sex="macho">
-        <img src="img/husky.avif" alt="logo perros" width="250px">
-        <section class="info">
-            <p>Nombre: Toby</p>
-            <p>Edad: 5 años</p>
-            <p>Sexo: Macho</p>
-            <p>Tamaño: Grande</p>
-        </section>
-    </section>
-
-    <section class="perroDatos" data-size="mediano" data-age="senior" data-sex="hembra">
-        <img src="img/husky.avif" alt="logo perros" width="250px">
-        <section class="info">
-            <p>Nombre: Mina</p>
-            <p>Edad: 8 años</p>
-            <p>Sexo: Hembra</p>
-            <p>Tamaño: Mediano</p>
-        </section>
-    </section>
-
-    <section class="perroDatos" data-size="mediano" data-age="cachorro" data-sex="macho">
-        <img src="img/husky.avif" alt="logo perros" width="250px">
-        <section class="info">
-            <p>Nombre: Firulais</p>
-            <p>Edad: 6 meses</p>
-            <p>Sexo: Macho</p>
-            <p>Tamaño: Mediano</p>
-        </section>
-    </section>
-
-    <section class="perroDatos" data-size="mediano" data-age="adulto" data-sex="macho">
-        <img src="img/husky.avif" alt="logo perros" width="250px">
-        <section class="info">
-            <p>Nombre: Roberto</p>
-            <p>Edad: 7 años</p>
-            <p>Sexo: Macho</p>
-            <p>Tamaño: Mediano</p>
-        </section>
-    </section>
-
-    <section class="perroDatos" data-size="grande" data-age="adulto" data-sex="hembra">
-        <img src="img/husky.avif" alt="logo perros" width="250px">
-        <section class="info">
-            <p>Nombre: Patricia</p>
-            <p>Edad: 3 años</p>
-            <p>Sexo: Hembra</p>
-            <p>Tamaño: Grande</p>
-        </section>
-    </section>
-
-    <section class="perroDatos" data-size="pequeño" data-age="joven" data-sex="macho">
-        <img src="img/husky.avif" alt="logo perros" width="250px">
-        <p>Nombre: Matias</p>
-        <p>Edad: 2 años</p>
-        <p>Sexo: Macho</p>
-        <p>Tamaño: Pequeño</p>
-    </section>
-
-    <section class="perroDatos" data-size="pequeño" data-age="joven" data-sex="hembra">
-        <img src="img/husky.avif" alt="logo perros" width="250px">>
-        <p>Nombre: papeitaLosPalotes</p>
-        <p>Edad: 2 años</p>
-        <p>Sexo: Hembra</p>
-        <p>Tamaño: pequeño</p>
-    </section>
-
-</section>
     </main>
 
-        <!-- Un código en JavaScript, que nos ayuda hacer un clic -->
-        <script src="js/main-felix.js"></script>
-    </body>
+    <!-- Un código en JavaScript, que nos ayuda hacer un clic -->
+    <script src="js/main-felix.js"></script>
+</body>
+
 </html>

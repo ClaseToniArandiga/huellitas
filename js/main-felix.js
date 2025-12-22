@@ -1,57 +1,77 @@
+//Los datos de los perros
+const perros = [
+    { nombre: "Rocky", edad: "3 meses", sexo: "macho", tamaño: "mediano", categoriaEdad: "cachorro", imagen: "img/husky.avif" },
+    { nombre: "Toby", edad: "5 años", sexo: "macho", tamaño: "grande", categoriaEdad: "adulto", imagen: "img/husky.avif" },
+    { nombre: "Mina", edad: "8 años", sexo: "hembra", tamaño: "mediano", categoriaEdad: "senior", imagen: "img/husky.avif" },
+    { nombre: "Firulais", edad: "6 meses", sexo: "macho", tamaño: "mediano", categoriaEdad: "cachorro", imagen: "img/husky.avif" },
+    { nombre: "Roberto", edad: "7 años", sexo: "macho", tamaño: "mediano", categoriaEdad: "adulto", imagen: "img/husky.avif" },
+    { nombre: "Patricia", edad: "3 años", sexo: "hembra", tamaño: "grande", categoriaEdad: "adulto", imagen: "img/husky.avif" },
+    { nombre: "Matias", edad: "2 años", sexo: "macho", tamaño: "pequeño", categoriaEdad: "joven", imagen: "img/husky.avif" },
+    { nombre: "papeitaLosPalotes", edad: "2 años", sexo: "hembra", tamaño: "pequeño", categoriaEdad: "joven", imagen: "img/husky.avif" }
+];
 
-// FUNCIÓN DE FILTRADO DE PERROS
-function filtrarPerros() {
-    // 1. Obtener los valores de los filtros
-    const sizeFilter = document.getElementById('tamaño').value;
-    const ageFilter = document.getElementById('edad').value;
-    const sexFilter = document.getElementById('sexo').value;
+// LOS FILTROS PARA EL BUSCADOR
+const contenedor = document.getElementById('grupoPerros');
+const selectTamaño = document.getElementById('tamaño');
+const selectEdad = document.getElementById('edad');
+const selectSexo = document.getElementById('sexo');
 
-    // 2. Obtener la lista de todos los perfiles de perros
-    const perros = document.querySelectorAll('.perroDatos');
+// Función para mostrar los perros en el HTML
+function mostrarPerros(lista) {
+    // Limpieza
+    contenedor.innerHTML = "";
 
-    // 3. Iterar sobre cada perro y aplicar los filtros
-    perros.forEach(perro => {
-        const perroSize = perro.dataset.size;
-        const perroAge = perro.dataset.age;
-        const perroSex = perro.dataset.sex;
+    // si hay perros o no hay perros
+    if (lista.length === 0) {
+        contenedor.innerHTML = "<p>No se encontraron perros con esos filtros.</p>";
+        return;
+    }
 
-        let mostrarPerro = true;
-
-        // Comprobación de TAMAÑO
-        if (sizeFilter !== "" && perroSize !== sizeFilter) {
-            mostrarPerro = false;
-        }
-
-        // Comprobación de EDAD
-        if (mostrarPerro && ageFilter !== "" && perroAge !== ageFilter) {
-            mostrarPerro = false;
-        }
-
-        // Comprobación de SEXO
-        if (mostrarPerro && sexFilter !== "" && perroSex !== sexFilter) {
-            mostrarPerro = false;
-        }
-
-        // 4. Aplicar el estilo: Mostrar u Ocultar
-        if (mostrarPerro) {
-            perro.style.display = 'block'; 
+    lista.forEach(perro => {
+        const articulo = document.createElement('section');
+        articulo.classList.add('perroDatos');
         
-        } else {
-            perro.style.display = 'none'; // Oculta el perro
-        }
+  
+  
+
+        articulo.innerHTML = `
+            <img src="${perro.imagen}" alt="${perro.nombre}" width="250px">
+            <section class="info">
+                <p><strong>Nombre:</strong> ${perro.nombre}</p>
+                <p><strong>Edad:</strong> ${perro.edad}</p>
+                <p><strong>Sexo:</strong> ${perro.sexo}</p>
+                <p><strong>Tamaño:</strong> ${perro.tamaño}</p>
+            </section>
+        `;
+        contenedor.appendChild(articulo);
     });
 }
 
+// Función de los fitros
+function filtrarPerros() {
+    const valorTamaño = selectTamaño.value;
+    const valorEdad = selectEdad.value;
+    const valorSexo = selectSexo.value;
 
-// NUEVA FUNCIÓN: Resetear los filtros del formulario
-function resetearFiltros() {
-    // 1. Accede al formulario por su ID y usa el método nativo .reset()
-    document.getElementById('filtro-perros').reset();
-    
-    // 2. Vuelve a llamar a la función de filtrado. 
-    // Como los select ya están en "", la función mostrará todos los perros.
-    filtrarPerros();
+    const resultado = perros.filter(perro => {
+        // Si el select está vacío (Todos), la condición es verdadera
+        const cumpleTamaño = valorTamaño === "" || perro.tamaño === valorTamaño;
+        const cumpleEdad = valorEdad === "" || perro.categoriaEdad === valorEdad;
+        const cumpleSexo = valorSexo === "" || perro.sexo === valorSexo;
+
+        return cumpleTamaño && cumpleEdad && cumpleSexo;
+    });
+
+    mostrarPerros(resultado);
 }
 
-// Ejecutar el filtrado una vez al cargar la página para asegurar que todos los perros se muestren por defecto.
-window.onload = filtrarPerros;
+//Función para Resetear el buscadro
+function resetearFiltros() {
+    selectTamaño.value = "";
+    selectEdad.value = "";
+    selectSexo.value = "";
+    mostrarPerros(perros);
+}
+
+//lo carga todo
+mostrarPerros(perros);
